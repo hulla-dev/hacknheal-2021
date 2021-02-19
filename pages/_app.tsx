@@ -1,4 +1,3 @@
-import { NextComponentType, NextPageContext } from 'next'
 import { AppProps } from 'next/app'
 import { useEffect } from 'react'
 import { ThemeProvider } from '@material-ui/core'
