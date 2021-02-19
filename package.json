@@ -11,6 +11,8 @@
     "postinstall": "husky install"
   },
   "dependencies": {
+    "@types/jest": "^26.0.20",
+    "@types/react-dom": "^17.0.1",
     "date-fns": "^2.11.1",
     "gray-matter": "^4.0.2",
     "next": "^10.0.0",
