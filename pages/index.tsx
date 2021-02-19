@@ -5,13 +5,7 @@ import { Alert } from '@material-ui/lab'
 const Home = (): JSX.Element => (
   <Layout>
     <section>
-      Home
-      <Button variant="contained" color="primary">
-        Test
-      </Button>
-      <Alert severity="warning">
-        Test
-      </Alert>
+      <h1>Hello world</h1>
     </section>
   </Layout>
 )

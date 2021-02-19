@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Navbar from './Navbar'
 import { ReactChild } from 'react'
 
 type Props = {
@@ -17,6 +18,7 @@ const Layout = ({ children }: Props): JSX.Element => (
         content="Samuel Hulla"
       />
     </Head>
+    <Navbar />
     {children}
   </div>
 )
