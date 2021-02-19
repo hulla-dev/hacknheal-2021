@@ -4,21 +4,24 @@ import { makeStyles } from '@material-ui/core/styles'
 type Props = {
   text: string,
   href: string,
+  color?: string,
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   link: {
     textTransform: 'uppercase',
-    color: theme.palette.text.primary,
     textDecoration: 'none',
+    color: (props: Props) => props.color ?? 'inherit',
     '&:active': {
-      color: theme.palette.text.primary,
+      color: (props: Props) => props.color ?? 'inherit',
     }
   }
-}))
+})
 
-const Link = ({ href, text }: Props): JSX.Element => {
-  const classes = useStyles()
+const Link = (props: Props): JSX.Element => {
+  const { href, text } = props
+  const classes = useStyles(props)
+
   return (
     <NextLink href={href}>
       <a className={classes.link}>{text}</a>
