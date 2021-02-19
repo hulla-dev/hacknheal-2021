@@ -1,11 +1,12 @@
-import { useRef } from 'react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import { Box, Button, Grid, Typography } from '@material-ui/core'
+import { Box, Button, Grid, Tab, Tabs, Typography } from '@material-ui/core'
 import { makeStyles } from  '@material-ui/core/styles'
 import { ExpandMore as ExpandMoreIcon } from  '@material-ui/icons'
 import { Fade } from 'react-awesome-reveal'
 import Layout from '../components/Layout'
 import Section from '../components/Section'
+import TabPanel from '../components/TabPanel'
 import Trail from '../components/animations/Trail'
 import Parallax from '../components/animations/Parallax'
 import { scrollToRef } from '../lib/animations'
@@ -18,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   stepOne: {
     background: theme.palette.primary.main,
     color: theme.palette.background.default,
-    marginBottom: '20rem',
+    height: '100vh'
   }
 }))
 
@@ -28,10 +29,19 @@ const parallaxItems = [
   <Image key="logo" src="/images/logo.png" alt="logo" height={100} width={300} />,
 ]
 
+const slides = parallaxItems
+
 const Home = (): JSX.Element => {
   const classes = useStyles()
   const productRef = useRef(null)
+  const [tab, setTab] = useState(0)
 
+  const onTabChange = (_event: ChangeEvent<HTMLButtonElement>, value: number) => setTab(value)
+
+  useEffect(() => {
+    const updateSlide = setInterval(() => setTab(prevTab => prevTab === slides.length ? 0 : prevTab + 1), 5000)
+    return () => clearInterval(updateSlide)
+  })
 
   return (
     <Layout>
@@ -74,10 +84,30 @@ const Home = (): JSX.Element => {
           <Section>
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                <Typography variant="h3">Get to know our diagnostics tool!</Typography>
+                <Typography variant="h2">Get to know our diagnostics tool!</Typography>
+                <Box mt={5}>
+                  <Typography variant="h5">
+                   In just a few minutes we can provide you with instant results,
+                   preventions and treatment that will help you live a longer and happier life!
+                  </Typography>
+                </Box>
+                <Box width={300} my={20}>
+                  <Tabs
+                    orientation="vertical"
+                    value={tab}
+                    onChange={onTabChange}>
+                      <Tab label="Get a quick diagnosis" />
+                      <Tab label="Consult the results" />
+                      <Tab label="Keep track of risks" />
+                  </Tabs>
+                </Box>
               </Grid>
               <Grid item xs={6}>
-                Or dont
+               {slides.map((slide, index) => (
+                 <TabPanel value={tab} key={index} index={index}>
+                   {slide}
+                 </TabPanel>
+               ))}
               </Grid>
             </Grid>
           </Section>

@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Box, Button, Grid } from '@material-ui/core'
+import { Box, Button, Grid, Typography } from '@material-ui/core'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { 
   GitHub as GitHubIcon,
@@ -52,19 +52,21 @@ const Footer = (): JSX.Element => {
   return (
       <Grid className={classes.footer} container spacing={7}>
         <Grid item container xs={12}>
-          <Grid item xs={4}>
-            <h1>
+          <Grid item xs={5}>
+            <Typography variant="h4">
               This is a submission prototype for the Hacknheal 2021 Hackathon!
               Interested in how I did it? 
-            </h1>
-            <Button size="large" startIcon={<GitHubIcon />} variant="outlined" color="secondary">
-              <Link
-                href="https://github.com/samuelhulla/hacknheal-2020"
-                text="View on github" 
-              />
-            </Button>
+            </Typography>
+            <Box mt={4}>
+              <Button size="large" startIcon={<GitHubIcon />} variant="outlined" color="secondary">
+                <Link
+                  href="https://github.com/samuelhulla/hacknheal-2020"
+                  text="View on github" 
+                />
+              </Button>
+            </Box>
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={7}>
             <Box display="flex" justifyContent="center">
               <Image src="/images/hacknheal-logo.svg" alt="Hacknheal logo" width={400} height={120} />
             </Box>
