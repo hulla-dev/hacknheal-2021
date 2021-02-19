@@ -1,10 +1,10 @@
 import Head from 'next/head'
-import { ReactChild } from 'react'
+import { ReactNode } from 'react'
 import Navbar from './Navbar'
 import Footer from './Footer'
 
 type Props = {
-  children: ReactChild
+  children: ReactNode
 }
 
 const Layout = ({ children }: Props): JSX.Element => (
@@ -17,6 +17,11 @@ const Layout = ({ children }: Props): JSX.Element => (
       <meta
         name="author"
         content="Samuel Hulla"
+      />
+      <meta
+        name="description"
+        content="Hero banner credits:
+        https://www.freepik.com/vectors/people'>People vector created by rawpixel.com - www.freepik.com"
       />
     </Head>
     <Navbar />
