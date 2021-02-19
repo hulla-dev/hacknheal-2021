@@ -39,7 +39,7 @@ const Home = (): JSX.Element => {
   const onTabChange = (_event: ChangeEvent<HTMLButtonElement>, value: number) => setTab(value)
 
   useEffect(() => {
-    const updateSlide = setInterval(() => setTab(prevTab => prevTab === slides.length ? 0 : prevTab + 1), 5000)
+    const updateSlide = setInterval(() => setTab(prevTab => prevTab === slides.length - 1 ? 0 : prevTab + 1), 5000)
     return () => clearInterval(updateSlide)
   })
 
