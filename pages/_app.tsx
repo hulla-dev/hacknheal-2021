@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { ThemeProvider } from '@material-ui/core'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from '../lib/theme'
+import '../styles/styles.css'
 
 const App = ({ Component, pageProps }: AppProps): JSX.Element => {
   
