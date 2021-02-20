@@ -35,7 +35,7 @@ const Parallax = ({ items, deterministic = true }: Props): JSX.Element => {
       return (
         <animated.div
           key={index}
-          style={{ transform: spring.xy.interpolate(transition as (params: unknown) => string)}}>
+        style={{ transform: spring.xy.interpolate(transition as (params: unknown) => string)}}>
           {item}
         </animated.div>
       )

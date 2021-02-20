@@ -9,7 +9,6 @@ type Props = {
 
 const useStyles = makeStyles({
   link: {
-    textTransform: 'uppercase',
     textDecoration: 'none',
     color: (props: Props) => props.color ?? 'inherit',
     '&:active': {

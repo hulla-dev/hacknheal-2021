@@ -1,12 +1,13 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import {  Box, Button, Grid, Tab, Tabs, Typography } from '@material-ui/core'
+import { Box, Button, Grid, Tab, Tabs, Typography } from '@material-ui/core'
 import { makeStyles } from  '@material-ui/core/styles'
 import { ExpandMore as ExpandMoreIcon } from  '@material-ui/icons'
 import { Bounce, Fade, Slide, Zoom } from 'react-awesome-reveal'
 import Layout from '../components/Layout'
 import Section from '../components/Section'
 import TabPanel from '../components/TabPanel'
+import Link from '../components/Link'
 import Testimony from '../components/Testimony'
 import Trail from '../components/animations/Trail'
 import Parallax from '../components/animations/Parallax'
@@ -36,6 +37,11 @@ const useStyles = makeStyles(theme => ({
   button: {
     width: 500,
     height: 50,
+  },
+  modal: {
+    width: '60%',
+    height: '80%',
+    background: theme.palette.background.paper, 
   }
 }))
 
@@ -202,30 +208,6 @@ const Home = (): JSX.Element => {
           </Section>
         </div>
       </Fade>
-      <Box className={classes.stepTwo}>
-        <Section>
-            <Grid container spacing={8}>
-              <Grid item xs={12}>
-                <Fade duration={2000}>
-                  <Typography  className={classes.testimonyHeader} variant="h2">
-                    Read what others have to say about us
-                  </Typography>
-                </Fade>
-              </Grid>
-              <Grid item xs={12}>
-                <Slide direction="right">
-                  <Grid item xs={12} container spacing={4}>
-                      {testimonies.map((testimony, index) => (
-                        <Grid key={index} item xs={4}>
-                          {testimony}
-                        </Grid>
-                      ))}
-                  </Grid>
-                </Slide>
-              </Grid>
-            </Grid>
-        </Section>
-      </Box>
       <Box className={classes.stepThree}>
         <Section>
           <Grid container spacing={5}>
@@ -251,9 +233,15 @@ const Home = (): JSX.Element => {
                 </Fade>
               </Grid>
               <Grid item xs={12}>
-                <Button className={classes.button} variant="contained" color="primary" size="large">
-                  Start the diagnostic tool
-                </Button>
+                <Fade>
+                  <Button
+                    className={classes.button}
+                    variant="contained"
+                    color="primary"
+                    size="large">
+                    <Link href="/tool" text="Start the diagnostic tool" />
+                  </Button>
+                </Fade>
               </Grid>
             </Grid>
             <Grid item xs={6}>
@@ -262,6 +250,30 @@ const Home = (): JSX.Element => {
               </Bounce>
             </Grid>
           </Grid>
+        </Section>
+      </Box>
+      <Box className={classes.stepTwo}>
+        <Section>
+            <Grid container spacing={8}>
+              <Grid item xs={12}>
+                <Fade duration={2000}>
+                  <Typography  className={classes.testimonyHeader} variant="h2">
+                    Read what others have to say about us
+                  </Typography>
+                </Fade>
+              </Grid>
+              <Grid item xs={12}>
+                <Slide direction="right">
+                  <Grid item xs={12} container spacing={4}>
+                      {testimonies.map((testimony, index) => (
+                        <Grid key={index} item xs={4}>
+                          {testimony}
+                        </Grid>
+                      ))}
+                  </Grid>
+                </Slide>
+              </Grid>
+            </Grid>
         </Section>
       </Box>
     </Layout>
