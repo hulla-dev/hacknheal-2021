@@ -1,12 +1,13 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import { Box, Button, Grid, Tab, Tabs, Typography } from '@material-ui/core'
+import {  Box, Button, Grid, Tab, Tabs, Typography } from '@material-ui/core'
 import { makeStyles } from  '@material-ui/core/styles'
 import { ExpandMore as ExpandMoreIcon } from  '@material-ui/icons'
-import { Fade } from 'react-awesome-reveal'
+import { Bounce, Fade, Slide, Zoom } from 'react-awesome-reveal'
 import Layout from '../components/Layout'
 import Section from '../components/Section'
 import TabPanel from '../components/TabPanel'
+import Testimony from '../components/Testimony'
 import Trail from '../components/animations/Trail'
 import Parallax from '../components/animations/Parallax'
 import { scrollToRef } from '../lib/animations'
@@ -20,16 +21,100 @@ const useStyles = makeStyles(theme => ({
     background: theme.palette.primary.main,
     color: theme.palette.background.default,
     height: '100vh'
+  },
+  testimonyHeader: {
+    textAlign: 'center',
+  },
+  stepTwo: {
+    background: theme.palette.secondary.main,
+    color: theme.palette.background.default,
+    height: '100vh',
+  },
+  stepThree: {
+    height: '100vh',
+  },
+  button: {
+    width: 500,
+    height: 50,
   }
 }))
 
 const parallaxItems = [
-  <Image key="hospital" src="/images/hospital.png" alt="Hospital" height={400} width={400} />,
-  <Image key="hacknheal" src="/images/hacknheal-logo.svg" alt="hacknheal" height={200} width={200} />,
-  <Image key="logo" src="/images/logo.png" alt="logo" height={100} width={300} />,
+  <Image key="hospital" src="/images/heart.jpg" alt="Hospital" height={600} width={600} />,
+  <Image key="cardio" src="/images/cardiogram.svg" alt="logo" height={100} width={100} />,
 ]
 
-const slides = parallaxItems
+const testimonies = [
+  <Testimony
+    key="Testimony 1"
+    src="/images/doctor-placeholder.jpg"
+    alt="Testimony 1"
+    from="Johnathan Doe, MD"
+    companyText="Pharmacetic, Inc."
+    heading="Absolutely amazing!"
+    text="Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    Nullam quam arcu, sodales eget lacus ut, faucibus imperdiet enim. Duis sed sem ligula"
+  />,
+  <Testimony
+    key="Testimony2"
+    src="/images/me.jpeg"
+    alt="Testimony 2"
+    from="Samuel Hulla"
+    companyText="Freelance developer"
+    heading="This was a blast!"
+    text="I had a lot of fun developing this application. Considering it's a one man project made in 2 days
+    I think it turned out better than I expected"
+  />,
+  <Testimony
+    key="Testimony 3"
+    src="/images/winona-ryder.jpg"
+    alt="Testimony 1"
+    from="Joyce Byers"
+    companyText="Stay at home mom"
+    heading="Saved my son's life"
+    text="Helped me catch a rare disease my son had early and stopped it before it had a chance to spread"
+  />,
+]
+
+const slides = [
+  <Zoom key={0} delay={200}>
+    <Box>
+      <Box width={500} pb={10}>
+        <Typography variant="h4">Instant evaluation of health risks</Typography>
+        <Typography>
+          We will help you catch early symptomps of preventable illnesses and offer instant treatment.
+          This way you will never be caught offguard and may even increase your life expectancy
+        </Typography>
+      </Box>
+      <Image src="/images/placeholder.png" alt="Placeholder" width={600} height={500} />
+    </Box>
+  </Zoom>,
+  <Zoom cascade delay={200} key={1}>
+    <Box>
+      <Box width={500} pb={10}>
+        <Typography variant="h4">We offer consultation</Typography>
+        <Typography>
+          Do you have any questions regarding your results?
+          We can provide you with consultation and treatment recommendations
+          to make sure you live a happy and healthy life!
+        </Typography>
+      </Box>
+      <Image src="/images/placeholder.png" alt="Placeholder" width={600} height={500} />
+    </Box>
+  </Zoom>,
+  <Zoom delay={200} key={0}>
+    <Box>
+      <Box width={500} pb={10}>
+        <Typography variant="h4">Track your progress</Typography>
+        <Typography>
+          We will help you catch early symptomps of preventable illnesses and offer instant treatment.
+          This way you will never be caught offguard and may even increase your life expectancy
+        </Typography>
+      </Box>
+      <Image src="/images/placeholder.png" alt="Placeholder" width={600} height={500} />
+    </Box>
+  </Zoom>,
+]
 
 const Home = (): JSX.Element => {
   const classes = useStyles()
@@ -74,15 +159,19 @@ const Home = (): JSX.Element => {
               </Box>
             </Grid>
             <Grid item xs={6}>
-              <Image src="/images/hero.jpg" alt="Hero banner" height={500} width={600} />
+              <Fade>
+                <Parallax
+                  items={[<Image key="hero" src="/images/hero.jpg" alt="Hero banner" height={500} width={600} />]}
+                />
+              </Fade>
             </Grid>
           </Grid>
         </Box>
       </Section>
       <Fade>
-        <Box className={classes.stepOne}>
+        <div className={classes.stepOne}>
           <Section>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} ref={productRef}>
               <Grid item xs={6}>
                 <Typography variant="h2">Get to know our diagnostics tool!</Typography>
                 <Box mt={5}>
@@ -111,13 +200,70 @@ const Home = (): JSX.Element => {
               </Grid>
             </Grid>
           </Section>
-        </Box>
-      </Fade>
-      <Section>
-        <div ref={productRef}>
-          <Parallax items={parallaxItems} />
         </div>
-      </Section>
+      </Fade>
+      <Box className={classes.stepTwo}>
+        <Section>
+            <Grid container spacing={8}>
+              <Grid item xs={12}>
+                <Fade duration={2000}>
+                  <Typography  className={classes.testimonyHeader} variant="h2">
+                    Read what others have to say about us
+                  </Typography>
+                </Fade>
+              </Grid>
+              <Grid item xs={12}>
+                <Slide direction="right">
+                  <Grid item xs={12} container spacing={4}>
+                      {testimonies.map((testimony, index) => (
+                        <Grid key={index} item xs={4}>
+                          {testimony}
+                        </Grid>
+                      ))}
+                  </Grid>
+                </Slide>
+              </Grid>
+            </Grid>
+        </Section>
+      </Box>
+      <Box className={classes.stepThree}>
+        <Section>
+          <Grid container spacing={5}>
+            <Grid item container xs={6}>
+              <Grid item xs={12}>
+                <Fade>
+                  <Typography variant="h2">Sounds interesting?</Typography>
+                  <Typography variant="h2">Give it a try!</Typography>
+                </Fade>
+              </Grid>
+              <Grid item xs={12}>
+                <Fade>
+                  <Typography>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum elementum purus leo,
+                    <b>in vestibulum orci accumsan a. Nam ac nunc purus</b>.
+                    In vehicula aliquam nunc, sit amet iaculis tellus tristique sed.
+                    Fusce eget erat ante. Proin tellus metus, pretium sit amet pharetra vel, aliquet ut nunc.
+                    Integer quis fringilla metus.
+                    <b>Nam et condimentum purus, vitae malesuada turpis. 
+                      Phasellus a ligula risus. Vivamus blandit fermentum convallis.</b> 
+                    Donec rhoncus eros sit amet sem tempus, nec volutpat magna tincidunt. 
+                    Donec imperdiet vitae odio et ornare.
+                  </Typography>
+                </Fade>
+              </Grid>
+              <Grid item xs={12}>
+                <Button className={classes.button} variant="contained" color="primary" size="large">
+                  Start the diagnostic tool
+                </Button>
+              </Grid>
+            </Grid>
+            <Grid item xs={6}>
+              <Bounce>
+                <Parallax items={parallaxItems} />
+              </Bounce>
+            </Grid>
+          </Grid>
+        </Section>
+      </Box>
     </Layout>
   )
 }
