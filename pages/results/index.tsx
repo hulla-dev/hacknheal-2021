@@ -59,14 +59,30 @@ const Results = ({ api }: Props): JSX.Element => {
   const getScore = <K extends keyof RadioType>(field: RadioField<K>) => {
     const voted = Object.values(field).reduce(
       (result, { value }) => isSame(value, -1)
-        ? result
-        : result + 1
+        ? result + 0
+        : result + value + 1
       , 0
     )
     const fieldAmount = Object.values(field).length
     const maxAchievable = fieldAmount * 4
     return ((maxAchievable - voted) / maxAchievable) * 100
   }
+
+  const getVotedCount = <K extends keyof RadioType>(field: RadioField<K>) => Object.values(field).reduce(
+    (result, { value }) => isSame(value, -1)
+      ? result
+      : result + 1
+    , 0
+  )
+
+  const getTitle = (votedCount: number, index: number) => votedCount <= 2
+    ? `${labels[index]} (Inconclusive)`
+    : `${labels[index]}`
+
+  // allowing ts-ignore here, it's correctly typed but Object.entries transcodes key to string instead of maintaing
+  // keyed object type
+  /* eslint-disable @typescript-eslint/ban-ts-comment */
+
 
   return (
     <Layout>
@@ -76,9 +92,13 @@ const Results = ({ api }: Props): JSX.Element => {
           {Object.entries(radio).map(([type, field], index) => (
             // Ts doesnt like me manually mapping to radio object, but no time to fix
             <ListItem key={index}>
-              {/* eslint-disable-next-line */}
-              {/* @ts-ignore */}
-              <Score score={getScore<typeof type>(field)} category={labels[index]} icon={icons[index]} />
+              <Score
+                // @ts-ignore
+                score={getScore<typeof type>(field)}
+                // @ts-ignore
+                category={getTitle<typeof type>(getVotedCount(field), index)}
+                icon={icons[index]}
+              />
             </ListItem>
           ))}
           </List>
