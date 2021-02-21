@@ -92,7 +92,7 @@ const slides = [
           This way you will never be caught offguard and may even increase your life expectancy
         </Typography>
       </Box>
-      <Image src="/images/placeholder.png" alt="Placeholder" width={600} height={500} />
+      <Image src="/images/placeholder.png" alt="Placeholder" width={500} height={400} />
     </Box>
   </Zoom>,
   <Zoom cascade delay={200} key={1}>

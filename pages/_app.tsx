@@ -2,6 +2,7 @@ import { AppProps } from 'next/app'
 import { useEffect, useState } from 'react'
 import { ThemeProvider } from '@material-ui/core'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import ResolutionMaintainer from '../components/ResolutionMaintainer'
 import theme from '../lib/theme'
 import '../styles/styles.css'
 
@@ -21,7 +22,9 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-        <Component api={api} setApi={setApi} {...pageProps} />
+        <ResolutionMaintainer>
+          <Component api={api} setApi={setApi} {...pageProps} />
+        </ResolutionMaintainer>
     </ThemeProvider>
   )
 }
