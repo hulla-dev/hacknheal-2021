@@ -1,6 +1,6 @@
 import { animated, useSpring } from 'react-spring'
 import { ReactNodeArray } from 'react'
-import { randomInInterval } from '../../lib/random'
+import { randomInInterval } from '../../lib/math'
 
 type Props = {
   items: ReactNodeArray,

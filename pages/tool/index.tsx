@@ -1,15 +1,23 @@
 import { ChangeEvent, FocusEvent, useEffect, useState } from 'react'
 import { Box, Button, Grid, Step, StepLabel, Stepper, Tooltip } from '@material-ui/core'
 import { Fade } from  'react-awesome-reveal'
+import { isSame } from '../../lib/math'
 import { validate } from '../../lib/validation'
 import Section from '../../components/Section'
 import Layout from '../../components/Layout'
-import ToolStep1 from '../../components/tool/ToolStep1'
+import ToolStep1 from '../../components/tool/ToolFields'
+import ToolStep2 from '../../components/tool/ToolRadio'
 
 type Input = {
   value: string | boolean,
   error: string,
   blurred: boolean,
+}
+
+type RadioValue = {
+  // -1 = undefined, rest is graded
+  value: -1 | 0 | 1 | 2 | 3 | 4,
+  question: string,
 }
 
 export type DataType = {
@@ -23,13 +31,27 @@ export type DataType = {
   },
 }
 
+export type RadioType = {
+  health: {
+    illnesses: RadioValue,
+    cancer: RadioValue,
+    flu: RadioValue,
+    heart: RadioValue,
+    headache: RadioValue,
+    digestion: RadioValue,
+  },
+}
+
 export type DataProperty = keyof DataType[keyof DataType]
+export type RadioProperty = keyof RadioType[keyof RadioType]
+
+export type FormType = DataType & RadioType
+
 export type InputEvent = ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 export type ToggleEvent = ChangeEvent<HTMLInputElement>
 export type BlurToggleEvent = FocusEvent<HTMLButtonElement>
 
 const steps = ['Contact Information', 'Health', 'Psychology', 'Lifestyle', 'Results']
-
 
 
 const DiagnosticTool = (): JSX.Element => {
@@ -40,7 +62,7 @@ const DiagnosticTool = (): JSX.Element => {
 
   const getEmptyField = (name: DataProperty): Input => ({ ...validate(name, ''), blurred: false })
   const getEmptyToggle = (name: DataProperty): Input => ({ ...validate(name, false), blurred: false})
-  const [data, setData] = useState<DataType>({
+  const [data, setData] = useState<FormType>({
     contact: {
       firstName: getEmptyField('firstName'),
       lastName: getEmptyField('lastName'),
@@ -48,6 +70,14 @@ const DiagnosticTool = (): JSX.Element => {
       phone: getEmptyField('phone'),
       termsOfUse: getEmptyToggle('termsOfUse'),
       privacyPolicy: getEmptyToggle('privacyPolicy'),
+    },
+    health: {
+      illnesses: { value: -1, question: 'Do you have history of illnesses in your family?' },
+      cancer: { value: -1, question: 'Do you have history of cancer in your family?' },
+      flu: { value: -1, question: 'Do you have history of flu in your family?' },
+      heart: { value: -1, question: 'Do you have history of heart related issues in your family?' },
+      headache: { value: -1, question: 'Do you have history of headache in your family?' },
+      digestion: { value: -1, question: 'Do you have history of digestion issues in your family?' },
     }
   })
 
@@ -117,37 +147,39 @@ const DiagnosticTool = (): JSX.Element => {
   }
 
 
+  const onRadioChange = (event: InputEvent, type: keyof RadioType) => {
+    const { name, value } = event.target
+    setData(prevData => ({
+      ...prevData,
+      [type]: {
+        ...prevData[type],
+        [name]: {
+          ...prevData[type][name],
+          value,
+        }
+      }
+    }))
+  }
 
   const validateAllFields = () => {
     Object.entries(data).forEach(([type, fields]) => {
-      Object.entries(fields).forEach(([name, input]) => {
-        const validatedData = validate((name as DataProperty), input.value)
-        setData(prevData => ({
-          ...prevData,
-          [type]: {
-            ...prevData[type],
-            [name]: {
-              ...prevData[type][name],
-              ...validatedData,
-              blurred: true,
+      if (type === 'contact') {
+        Object.entries(fields).forEach(([name, input]) => {
+          const validatedData = validate((name as DataProperty), input.value)
+          setData(prevData => ({
+            ...prevData,
+            [type]: {
+              ...prevData[type],
+              [name]: {
+                ...prevData[type][name],
+                ...validatedData,
+                blurred: true,
+              }
             }
-          }
-        }))
-      })
+          }))
+        })
+      }
     })
-  }
-
-  const renderStep = (current: number): string | JSX.Element => {
-    switch (current) {
-      case 0:
-        return <ToolStep1 onBlur={onBlur} onChange={onChange} data={data} />
-      case 1:
-        return '1'
-      case 2:
-        return '2'
-      default:
-        return 'Unknown step'
-    }
   }
 
   const onNextStep = () => setStep(prevStep => prevStep + 1)
@@ -165,11 +197,49 @@ const DiagnosticTool = (): JSX.Element => {
     }
   }
 
+  const isRadioType = (input: Input | RadioValue): input is RadioValue =>
+    Object.prototype.hasOwnProperty.call(input, 'question')
+
+  const answered = Object.values(data).reduce(
+    (result, field) => result + Object.values(field).reduce(
+      (sum, input) => isRadioType(input)
+        ? isSame(input.value, -1)
+          ? sum 
+          : sum + 1
+        : sum
+      , 0
+    )
+    , 0
+  )
+
+  const available = Object.values(data).reduce(
+    (result, field) => result + Object.values(field).reduce(
+      (sum, input) => isRadioType(input)
+        ? sum + 1
+        : sum
+      , 0
+    )
+    , 0
+  )
+
+  const renderStep = (current: number): string | JSX.Element => {
+    switch (current) {
+      case 0:
+        return <ToolStep1 onBlur={onBlur} onChange={onChange} data={data} />
+      case 1:
+        return <ToolStep2 answered={answered} available={available} data={data} onChange={onRadioChange} />
+      case 2:
+        return '2'
+      default:
+        return 'Unknown step'
+    }
+  }
+
   return (
     <Layout>
       <Fade cascade>
         <Section>
-          <Grid container spacing={10}>
+          <Grid container spacing={7}>
             <Grid item xs={12}>
               <Stepper activeStep={step} alternativeLabel>
                 {steps.map(step => (
@@ -192,7 +262,8 @@ const DiagnosticTool = (): JSX.Element => {
                 )}
                 </Box>
                 <Box mx={3}>
-                {step < steps.length && (
+                  {/* TODO: Deadlock bug - make error and go to previous step */}
+                {step < steps.length - 1 && (
                   (attemptedNext && !isFormValid)
                     ? (
                       <Tooltip title="Please correct the errors first" placement="top">
@@ -217,6 +288,16 @@ const DiagnosticTool = (): JSX.Element => {
                         Next
                       </Button>
                     )
+                )}
+                {step >= steps.length - 1 && (
+                  <Button
+                    variant="contained"
+                    size="large"
+                    color="primary"
+                    disabled={!isFormValid}
+                    onClick={attemptGoNext}>
+                    Save results
+                  </Button>
                 )}
                 </Box>
               </Box>

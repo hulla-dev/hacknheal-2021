@@ -9,7 +9,7 @@ type Props = {
   data: DataType,
 }
 
-const ToolStep1 = (props: Props): JSX.Element => {
+const ToolFields = (props: Props): JSX.Element => {
   
   const theme = useTheme()
   const { onChange, onBlur, data } = props
@@ -120,4 +120,4 @@ const ToolStep1 = (props: Props): JSX.Element => {
   )
 }
 
-export default ToolStep1
+export default ToolFields
