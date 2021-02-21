@@ -66,10 +66,10 @@ const Footer = (): JSX.Element => {
               </Button>
             </Box>
           </Grid>
-          <Grid item xs={7}>
-            <Box display="flex" justifyContent="center">
-              <Image src="/images/hacknheal-logo.svg" alt="Hacknheal logo" width={400} height={120} />
-            </Box>
+          {/* @ts-ignore */}
+          <Grid item xs={7} align="end">
+            {/* Outdated @types on MUI Grid */}
+            <Image src="/images/hacknheal-logo.svg" alt="Hacknheal logo" width={400} height={120} />
           </Grid>
         </Grid>
         <Grid  className={classes.bottomNav} item container xs={12}>
