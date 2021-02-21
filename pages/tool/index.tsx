@@ -5,16 +5,17 @@ import { isSame } from '../../lib/math'
 import { validate } from '../../lib/validation'
 import Section from '../../components/Section'
 import Layout from '../../components/Layout'
-import ToolStep1 from '../../components/tool/ToolFields'
-import ToolStep2 from '../../components/tool/ToolRadio'
+import ToolFields from '../../components/tool/ToolFields'
+import ToolRadio from '../../components/tool/ToolRadio'
+import ToolResults from '../../components/tool/ToolResults'
 
-type Input = {
+export type Input = {
   value: string | boolean,
   error: string,
   blurred: boolean,
 }
 
-type RadioValue = {
+export type RadioValue = {
   // -1 = undefined, rest is graded
   value: -1 | 0 | 1 | 2 | 3 | 4,
   question: string,
@@ -40,6 +41,22 @@ export type RadioType = {
     headache: RadioValue,
     digestion: RadioValue,
   },
+  psychology: {
+    depression: RadioValue,
+    anxiety: RadioValue,
+    psychologyst: RadioValue,
+    amnesia: RadioValue,
+    sleepIssues: RadioValue,
+    irritable: RadioValue,
+  },
+  lifeStyle: {
+    sedantry: RadioValue,
+    food: RadioValue,
+    drinks: RadioValue,
+    burnout: RadioValue,
+    sadness: RadioValue,
+    stress: RadioValue,
+  }
 }
 
 export type DataProperty = keyof DataType[keyof DataType]
@@ -78,6 +95,22 @@ const DiagnosticTool = (): JSX.Element => {
       heart: { value: -1, question: 'Do you have history of heart related issues in your family?' },
       headache: { value: -1, question: 'Do you have history of headache in your family?' },
       digestion: { value: -1, question: 'Do you have history of digestion issues in your family?' },
+    },
+    psychology: {
+      depression: { value: -1, question: 'Have you experienced depression lately?' },
+      anxiety: { value: -1, question: 'Have you experienced anxiety lately?' },
+      psychologyst: { value: -1, question: 'Have you visited a psychologyst in last 3 years?'},
+      amnesia: { value: -1, question: 'Have you experienced amnesia lately'},
+      sleepIssues: { value: -1, question: 'Have you experienced sleep issues lately?'},
+      irritable: { value: -1, question: 'Have you been irritable lately'},
+    },
+    lifeStyle: {
+      sedantry: { value: -1, question: 'Do you lead a sedantry lifestyle?' },
+      food: { value: -1, question: 'Do you consume a lot of fast food?'},
+      drinks: { value: -1, question: 'Do you drink a lot of sweetened drinks?' },
+      burnout: { value: -1, question: 'Are you in risk of a burnout?' },
+      sadness: { value: -1, question: 'Have you experienced sadness lately?'},
+      stress: { value: -1, question: 'Does your lifestyle contain a lot of stress?'},
     }
   })
 
@@ -225,11 +258,33 @@ const DiagnosticTool = (): JSX.Element => {
   const renderStep = (current: number): string | JSX.Element => {
     switch (current) {
       case 0:
-        return <ToolStep1 onBlur={onBlur} onChange={onChange} data={data} />
+        return <ToolFields onBlur={onBlur} onChange={onChange} data={data} />
       case 1:
-        return <ToolStep2 answered={answered} available={available} data={data} onChange={onRadioChange} />
+        return <ToolRadio
+            type="health"
+            answered={answered}
+            available={available}
+            data={data}
+            onChange={onRadioChange}
+          />
       case 2:
-        return '2'
+        return <ToolRadio
+            type="psychology"
+            answered={answered}
+            available={available}
+            data={data}
+            onChange={onRadioChange}
+          />
+      case 3:
+        return <ToolRadio
+            type="lifeStyle"
+            answered={answered}
+            available={available}
+            data={data}
+            onChange={onRadioChange}
+          />
+      case 4:
+        return <ToolResults answered={answered} available={available} data={data} />
       default:
         return 'Unknown step'
     }
@@ -262,7 +317,6 @@ const DiagnosticTool = (): JSX.Element => {
                 )}
                 </Box>
                 <Box mx={3}>
-                  {/* TODO: Deadlock bug - make error and go to previous step */}
                 {step < steps.length - 1 && (
                   (attemptedNext && !isFormValid)
                     ? (

@@ -20,8 +20,8 @@ const defaultOptions: RadioItem[] = defaultGrade.map((grade, index) => ({
 
 
 const ToolRadio = (props: Props): JSX.Element=> {
-  const { data , onChange, answered, available } = props
-  const { health } = data
+  const { data , onChange, answered, type, available } = props
+  const { [type]: category } = data
 
   return (
     <Grid item container xs={12} spacing={6}>
@@ -36,12 +36,12 @@ const ToolRadio = (props: Props): JSX.Element=> {
           />
         </Box>
       </Grid>
-      {Object.entries(health).map(([name, field]) => (
+      {Object.entries(category).map(([name, field]) => (
         <RadioQuestion
           value={field.value} 
           items={defaultOptions}
           question={field.question}
-          type="health"
+          type={type}
           name={name as RadioProperty}
           key={field.question}
           onChange={onChange}
