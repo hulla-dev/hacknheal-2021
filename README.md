@@ -24,7 +24,7 @@ This is a submission for the [crafthub hacknheal hackathon](http://crafthub.even
 ## Useful links :link:
    - [Sales pitch video](https://www.youtube.com/watch?v=ayNKjdMHtSw) :gem:
    
-   - [Live vercel deploy!](hacknheal-2021.vercel.app) :fire:
+   - [Live vercel deploy!](https://hacknheal-2021.vercel.app) :fire:
    
    - Or you can also run the build on your own computer via
      ```bash
