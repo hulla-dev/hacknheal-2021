@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { Box, Button, Grid, Typography } from '@material-ui/core'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import { 
   GitHub as GitHubIcon,
   Instagram as InstagramIcon,
@@ -48,7 +48,6 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Footer = (): JSX.Element => {
-  const { palette } = useTheme()
   const classes = useStyles()
   return (
       <Grid className={classes.footer} container spacing={7}>
