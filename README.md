@@ -21,10 +21,16 @@ This is a submission for the [crafthub hacknheal hackathon](http://crafthub.even
 | -- | -- | -- | -- | -- | -- |
 | <img src="https://cdn4.iconfinder.com/data/icons/logos-3/600/React.js_logo-512.png" width="100" height="100" /> | <img src="https://miro.medium.com/max/816/1*mn6bOs7s6Qbao15PMNRyOA.png" width="100" height="100" /> | <img src="https://iconape.com/wp-content/files/gm/82643/svg/next-js.svg" width="100" height="100" /> | <img src="https://i.imgur.com/wzt2qvw.png" width="100" height="100" /> | <img src="https://seeklogo.com/images/R/react-spring-logo-757E1EF5B5-seeklogo.com.png" width="100" height="100" /> | <img src="https://www.vifm.org/wp-content/uploads/2018/06/Placeholder-unsmushed.png" width="100" height="100" /> |
 
-## Presentation - video
-   :point_right: [Sales pitch video](https://www.youtube.com/watch?v=ayNKjdMHtSw) :gem:
+## Useful links :link:
+   - [Sales pitch video](https://www.youtube.com/watch?v=ayNKjdMHtSw) :gem:
    
-   :point_right: [Live vercel deploy!](hacknheal-2021.vercel.app) :fire:
+   - [Live vercel deploy!](hacknheal-2021.vercel.app) :fire:
+   
+   - Or you can also run the build on your own computer via
+     ```bash
+     npm run dev
+     ```
+   
    
 ## Final words :heart:
 It's definitely not perfect, there are few areas I wish I had more time for.
