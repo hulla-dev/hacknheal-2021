@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from 'react'
 import Image from 'next/image'
-import { Box, CircularProgress, Container, Grid, Typography } from '@material-ui/core'
+import { Box, Button, CircularProgress, Container, Grid, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 type Props = {
@@ -23,6 +23,7 @@ const ResolutionMaintainer = ({children }: Props): JSX.Element => {
   const max = 3000
   const [width, setWidth] = useState<number>(0)
   const [didMount, setDidMount] = useState(false)
+  const [didAgree, setDidAgree] = useState(false)
   const classes = useStyles()
 
   useEffect(
@@ -35,7 +36,7 @@ const ResolutionMaintainer = ({children }: Props): JSX.Element => {
     }, []
   )
 
-  if ( width < min || width > max) {
+  if (!didAgree && (width < min || width > max)) {
     if (!didMount) {
       return <Container><CircularProgress color="primary" /></Container>
     }
@@ -63,12 +64,28 @@ const ResolutionMaintainer = ({children }: Props): JSX.Element => {
               <Typography variant="h6">Please change your screen window size for optimal experience</Typography>
             </Grid>
           </Grid>
-          <Grid item container xs={6}>
+          <Grid item container spacing={5} xs={6}>
             <Grid item xs={12}>
               <Typography variant="h5">Thank you for your understanding</Typography>
             </Grid>
-            <Grid item > 
+            <Grid item xs={12} > 
              <Image src="/images/hacknheal-logo.svg" alt="Hacknheal logo" width={400} height={100} />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h5">
+                The site will automatically unlock if you change to supported screen size
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography>Or alternatively you can continue at your own risk with unsupported resolution</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => setDidAgree(true)}>
+                Continue with unsupported resolution 
+              </Button>
             </Grid>
           </Grid>
         </Grid>
