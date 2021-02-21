@@ -122,7 +122,11 @@ const slides = [
   </Zoom>,
 ]
 
-const Home = (): JSX.Element => {
+type Props = {
+  unsupported: boolean
+}
+
+const Home = ({unsupported}: Props): JSX.Element => {
   const classes = useStyles()
   const productRef = useRef(null)
   const [tab, setTab] = useState(0)
@@ -141,11 +145,21 @@ const Home = (): JSX.Element => {
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <Box py={5}>
-                <Trail open>
-                  <Typography className={classes.heading} variant="h1">Ever wondered</Typography>
-                  <Typography className={classes.heading} variant="h1">{"what it's like to have"}</Typography>
-                  <Typography className={classes.heading} variant="h1">to have superpowers?</Typography>
-                </Trail>
+                {unsupported
+                  ? (
+                    <Fade cascade>
+                      <Typography className={classes.heading} variant="h1">Ever wondered</Typography>
+                      <Typography className={classes.heading} variant="h1">{"what it's like to have"}</Typography>
+                      <Typography className={classes.heading} variant="h1">to have superpowers?</Typography>
+                    </Fade>
+                  ) : (
+                  <Trail open>
+                    <Typography className={classes.heading} variant="h1">Ever wondered</Typography>
+                    <Typography className={classes.heading} variant="h1">{"what it's like to have"}</Typography>
+                    <Typography className={classes.heading} variant="h1">to have superpowers?</Typography>
+                  </Trail>
+                  )
+                }
                 <Box mt={5}>
                   <Typography variant="h5">
                     With our help you can get an instant diagnosis tool,

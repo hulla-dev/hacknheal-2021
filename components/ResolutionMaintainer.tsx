@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 type Props = {
   children: ReactNode,
+  setUnsupported: (value: boolean) => void,
 }
 
 const useStyles = makeStyles(theme => ({
@@ -17,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const ResolutionMaintainer = ({children }: Props): JSX.Element => {
+const ResolutionMaintainer = ({children, setUnsupported }: Props): JSX.Element => {
 
   const min = 1500
   const max = 3000
@@ -26,14 +27,26 @@ const ResolutionMaintainer = ({children }: Props): JSX.Element => {
   const [didAgree, setDidAgree] = useState(false)
   const classes = useStyles()
 
+
+  const isUnsupported = (value: number) => value < min || value > max
+
   useEffect(
     () => {
-      const onResize = () => setWidth(window?.innerWidth)
+      const onResize = () => {
+        const newWidth = window?.innerWidth
+        if (isUnsupported(newWidth)) {
+          setUnsupported(true)
+        } else {
+          setUnsupported(false)
+        }
+        setWidth(newWidth)
+      }
       window.addEventListener('resize', onResize)
       onResize()
       setDidMount(true)
+
       return () => window.removeEventListener('resize', onResize)
-    }, []
+    }, [setUnsupported]
   )
 
   if (!didAgree && (width < min || width > max)) {

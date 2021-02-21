@@ -18,12 +18,13 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => {
 
   // make-shift, obviously would query and update DB in real implementation
   const [api, setApi] = useState(null)
+  const [unsupported, setUnsupported] = useState(false)
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-        <ResolutionMaintainer>
-          <Component api={api} setApi={setApi} {...pageProps} />
+        <ResolutionMaintainer setUnsupported={setUnsupported}>
+          <Component unsupported={unsupported} api={api} setApi={setApi} {...pageProps} />
         </ResolutionMaintainer>
     </ThemeProvider>
   )
