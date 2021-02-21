@@ -29,6 +29,7 @@ const ToolRadio = (props: Props): JSX.Element=> {
       <Grid item xs={12}>
         <Box display="flex" justifyContent="center">
           <AccuracyMeter
+            accuracyColor={accuracyColor}
             available={available}
             answered={answered}
             title="How accurate will my result be?"
