@@ -203,6 +203,17 @@ const DiagnosticTool = ({ setApi }: Props): JSX.Element => {
     , 0
   )
 
+  const accuracyRatio = (answered / available) * 100
+  const getAccuracyColor = () => {
+    if (accuracyRatio < 33) {
+      return 'error'
+    } else if (accuracyRatio < 66) {
+      return 'warning'
+    } else {
+      return 'success'
+    }
+  }
+
   const renderStep = (current: number): string | JSX.Element => {
     switch (current) {
       case 0:
@@ -213,6 +224,7 @@ const DiagnosticTool = ({ setApi }: Props): JSX.Element => {
             answered={answered}
             available={available}
             data={data}
+            accuracyColor={getAccuracyColor()}
             onChange={onRadioChange}
           />
       case 2:
@@ -221,6 +233,7 @@ const DiagnosticTool = ({ setApi }: Props): JSX.Element => {
             answered={answered}
             available={available}
             data={data}
+            accuracyColor={getAccuracyColor()}
             onChange={onRadioChange}
           />
       case 3:
@@ -228,11 +241,12 @@ const DiagnosticTool = ({ setApi }: Props): JSX.Element => {
             type="lifeStyle"
             answered={answered}
             available={available}
+            accuracyColor={getAccuracyColor()}
             data={data}
             onChange={onRadioChange}
           />
       case 4:
-        return <ToolResults answered={answered} available={available} data={data} />
+        return <ToolResults accuracyColor={getAccuracyColor()} answered={answered} available={available} data={data} />
       default:
         return 'Unknown step'
     }
@@ -299,15 +313,31 @@ const DiagnosticTool = ({ setApi }: Props): JSX.Element => {
                     )
                 )}
                 {step >= steps.length - 1 && (
-                  <Button
-                    variant="contained"
-                    size="large"
-                    color="primary"
-                    endIcon={<Save />}
-                    onClick={onSave}
-                    disabled={!isFormValid}>
-                    <Link href="/results" text="Save results" passHref />
-                  </Button>
+                  accuracyRatio >= 33 ? (
+                    <Button
+                      variant="contained"
+                      size="large"
+                      color="primary"
+                      endIcon={<Save />}
+                      onClick={onSave}
+                      disabled={!isFormValid}>
+                      <Link href="/results" text="Save results" passHref />
+                    </Button>
+                  ) : (
+                    <Tooltip title="You must achieve at least moderate accuracy to continue" placement="top">
+                      <div>
+                        <Button
+                          variant="contained"
+                          size="large"
+                          color="primary"
+                          endIcon={<Save />}
+                          onClick={onSave}
+                          disabled>
+                          Save changes
+                        </Button>
+                      </div>
+                    </Tooltip>
+                  )
                 )}
                 </Box>
               </Box>

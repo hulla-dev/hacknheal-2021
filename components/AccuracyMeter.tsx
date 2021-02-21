@@ -6,6 +6,7 @@ type Props = {
   available: number,
   answered: number,
   title: string,
+  accuracyColor: 'error' | 'warning' | 'success'
   text: string,
 }
 
@@ -32,11 +33,11 @@ const Info = withStyles({
 })(Alert)
 
 const AccuracyMeter = (props: Props): JSX.Element => {
-  const { available, answered, title, text } = props 
+  const { available, answered, title, text, accuracyColor } = props 
   // MUI Automatically presumes max is 100
   const ratio = (answered / available) * 100
   return (
-    <Info severity="info">
+    <Info severity={accuracyColor}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <AlertTitle><Typography variant="h5">{title}</Typography></AlertTitle>

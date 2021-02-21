@@ -9,6 +9,7 @@ type Props = {
   answered: number,
   available: number,
   type: keyof RadioType,
+  accuracyColor: 'error' | 'warning' | 'success'
 }
 
 
@@ -20,7 +21,7 @@ const defaultOptions: RadioItem[] = defaultGrade.map((grade, index) => ({
 
 
 const ToolRadio = (props: Props): JSX.Element=> {
-  const { data , onChange, answered, type, available } = props
+  const { data , onChange, answered, type, available, accuracyColor } = props
   const { [type]: category } = data
 
   return (

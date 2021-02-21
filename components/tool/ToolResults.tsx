@@ -6,6 +6,7 @@ type Props = {
   data: FormType,
   answered: number,
   available: number,
+  accuracyColor: 'error' | 'warning' | 'success'
 }
 
 type LockedFieldProps = {
@@ -31,7 +32,7 @@ const isRadioQuestion = (_input: unknown, type: string): _input is RadioValue =>
   type !== 'contact'
 
 const ToolResults = (props: Props): JSX.Element=> {
-  const { data , answered, available } = props
+  const { data , answered, available, accuracyColor } = props
 
   return (
     <Grid item container xs={12} spacing={6}>
