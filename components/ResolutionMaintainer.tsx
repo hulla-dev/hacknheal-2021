@@ -73,9 +73,6 @@ const ResolutionMaintainer = ({children, setUnsupported }: Props): JSX.Element =
                 I had to focus on getting a working prototype out of the door
               </Typography>
             </Grid>
-            <Grid item xs={12}>
-              <Typography variant="h6">Please change your screen window size for optimal experience</Typography>
-            </Grid>
           </Grid>
           <Grid item container spacing={5} xs={6}>
             <Grid item xs={12}>
