@@ -25,6 +25,7 @@
       { "memberSyntaxSortOrder": ["all", "single", "multiple", "none"], "ignoreDeclarationSort": true }
     ],
     "prefer-const": "error",
+    "@typescript-eslint/ban-ts-comment": "off",
     // React rules
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",

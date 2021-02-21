@@ -1,12 +1,19 @@
-import { withStyles } from '@material-ui/core/styles'
+import { makeStyles, withStyles } from '@material-ui/core/styles'
 import { Grid, LinearProgress, Typography} from '@material-ui/core'
 import { SentimentSatisfied, SentimentVeryDissatisfied, SentimentVerySatisfied } from '@material-ui/icons'
 
 type Props = {
   category: string,
   score: number,
-  icon: JSX.Element
+  icon: JSX.Element,
+  inconclusive: boolean,
 }
+
+const useStyles = makeStyles({
+  inconclusive: {
+    opacity: 0.3,
+  }
+})
 
 const Bar = withStyles(theme => ({
   root: {
@@ -24,7 +31,8 @@ const Bar = withStyles(theme => ({
 
 
 const Score = (props: Props): JSX.Element => {
-  const { category, score, icon } = props
+  const { category, score, icon, inconclusive } = props
+  const classes = useStyles()
 
   const getScoreEmoji = () => {
     if (score < 33) {
@@ -37,11 +45,13 @@ const Score = (props: Props): JSX.Element => {
   }
 
   return (
-    <Grid item container xs={12} spacing={2}>
-      <Grid item xs={2}>
+    // MUI Grid does not support className (outdated @types)
+    // @ts-ignore
+    <Grid item container xs={12} spacing={2} className={inconclusive && classes.inconclusive}>
+      <Grid item xs={1}>
         {icon}
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={4}>
         <Typography variant="h4">{category}</Typography>
       </Grid>
       <Grid item xs={6}>
