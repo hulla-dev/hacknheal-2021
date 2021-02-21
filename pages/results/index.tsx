@@ -1,16 +1,90 @@
 
-import { FormType } from '../../lib/types'
+import { Button, Grid, List, ListItem, Typography } from '@material-ui/core'
+import { AttentionSeeker } from 'react-awesome-reveal'
+import { BubbleChart, FavoriteBorder, FitnessCenter } from '@material-ui/icons'
+import { FormType, RadioField, RadioType } from '../../lib/types'
+import { isSame } from '../../lib/math'
+import Layout from '../../components/Layout'
+import Section from '../../components/Section'
+import Score from '../../components/Score'
+import Link from '../../components/Link'
+import React from 'react'
 
 type Props = {
   api: FormType | null,
 }
 
 
-const Results = (props: Props): JSX.Element => { 
+const Results = ({ api }: Props): JSX.Element => {
+
+
+  if (api === null) {
+    return (
+      <Layout>
+        <Section>
+          <Grid container spacing={8}>
+            <Grid item xs={12}>
+              <Typography variant="h2">
+              It appears you do not have any results yet
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography>
+                Either you have not filled in the questionaire properly
+                or just manually transferred to this page
+                without using the tool
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Button variant="contained" color="primary">
+                <Link href="/tool" text="Go to diagnostics tool" />
+              </Button>
+            </Grid>
+          </Grid>
+        </Section>
+    </Layout>
+    )
+  }
+
+  const labels = ['Health', 'Psychology', 'Lifestyle']
+  const icons = [ <FavoriteBorder key={0} />, <BubbleChart key={1} />, <FitnessCenter key={2} />]
+
+  const { health, lifeStyle, psychology } = api
+  const radio: RadioType = {
+    health,
+    lifeStyle,
+    psychology
+  }
+
+  const getScore = <K extends keyof RadioType>(field: RadioField<K>) => {
+    const voted = Object.values(field).reduce(
+      (result, { value }) => isSame(value, -1)
+        ? result
+        : result + 1
+      , 0
+    )
+    const fieldAmount = Object.values(field).length
+    const maxAchievable = fieldAmount * 4
+    return ((maxAchievable - voted) / maxAchievable) * 100
+  }
+
   return (
-    <div>
-      {props}
-    </div>
+    <Layout>
+      <Section>
+        <AttentionSeeker effect="tada">
+          <List>
+          {Object.entries(radio).map(([type, field], index) => (
+            // Ts doesnt like me manually mapping to radio object, but no time to fix
+            <ListItem key={index}>
+              {/* eslint-disable-next-line */}
+              {/* @ts-ignore */}
+              <Score score={getScore<typeof type>(field)} category={labels[index]} icon={icons[index]} />
+            </ListItem>
+          ))}
+          </List>
+        </AttentionSeeker>
+      </Section>
+    </Layout>
   )
 }
 

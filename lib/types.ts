@@ -52,6 +52,7 @@ export type RadioType = {
 
 export type DataProperty = keyof DataType[keyof DataType]
 export type RadioProperty = keyof RadioType[keyof RadioType]
+export type RadioField <K extends keyof RadioType> = RadioType[K]
 
 export type FormType = DataType & RadioType
 
