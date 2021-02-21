@@ -1,5 +1,5 @@
 import { AppProps } from 'next/app'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { ThemeProvider } from '@material-ui/core'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from '../lib/theme'
@@ -15,11 +15,13 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => {
     }
   }, [])
 
+  // make-shift, obviously would query and update DB in real implementation
+  const [api, setApi] = useState(null)
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Component {...pageProps} />
+        <Component api={api} setApi={setApi} {...pageProps} />
     </ThemeProvider>
   )
 }

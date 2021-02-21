@@ -5,6 +5,7 @@ type Props = {
   text: string,
   href: string,
   color?: string,
+  passHref?: boolean
 }
 
 const useStyles = makeStyles({
@@ -18,11 +19,11 @@ const useStyles = makeStyles({
 })
 
 const Link = (props: Props): JSX.Element => {
-  const { href, text } = props
+  const { href, text, passHref = false } = props
   const classes = useStyles(props)
 
   return (
-    <NextLink href={href}>
+    <NextLink href={href} passHref={passHref}>
       <a className={classes.link}>{text}</a>
     </NextLink>
   )

@@ -1,5 +1,5 @@
 import { FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, Typography } from '@material-ui/core'
-import { InputEvent, RadioProperty, RadioType } from '../pages/tool' 
+import { InputEvent, RadioProperty, RadioType } from '../lib/types' 
 
 export type RadioItem = {
   value: number,

@@ -1,5 +1,5 @@
 import { Box, Grid } from '@material-ui/core'
-import { FormType , InputEvent, RadioProperty, RadioType } from  '../../pages/tool/index'
+import { FormType , InputEvent, RadioProperty, RadioType } from  '../../lib/types'
 import RadioQuestion, { RadioItem } from '../RadioQuestion'
 import AccuracyMeter from '../AccuracyMeter'
 

@@ -1,5 +1,5 @@
 import { Box, Checkbox, FormControl, FormHelperText, FormLabel, Grid, TextField } from '@material-ui/core'
-import { BlurToggleEvent, DataProperty, DataType, InputEvent, ToggleEvent } from  '../../pages/tool/index'
+import { BlurToggleEvent, DataProperty, DataType, InputEvent, ToggleEvent } from  '../../lib/types'
 import { useTheme } from '@material-ui/core/styles'
 import Link from '../Link'
 

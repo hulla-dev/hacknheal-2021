@@ -1,5 +1,5 @@
 import { Box, Grid, TextField } from '@material-ui/core'
-import { FormType , RadioValue } from  '../../pages/tool/index'
+import { FormType , RadioValue } from  '../../lib/types'
 import AccuracyMeter from '../AccuracyMeter'
 
 type Props = {

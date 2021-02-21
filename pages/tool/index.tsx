@@ -1,6 +1,9 @@
-import { ChangeEvent, FocusEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Box, Button, Grid, Step, StepLabel, Stepper, Tooltip } from '@material-ui/core'
 import { KeyboardArrowLeft, KeyboardArrowRight, Save } from '@material-ui/icons'
+import {
+  BlurToggleEvent, DataProperty, DataType, FormType, Input, InputEvent, RadioType, RadioValue, ToggleEvent
+} from '../../lib/types'
 import { Fade } from  'react-awesome-reveal'
 import { isSame } from '../../lib/math'
 import { validate } from '../../lib/validation'
@@ -11,69 +14,15 @@ import ToolFields from '../../components/tool/ToolFields'
 import ToolRadio from '../../components/tool/ToolRadio'
 import ToolResults from '../../components/tool/ToolResults'
 
-export type Input = {
-  value: string | boolean,
-  error: string,
-  blurred: boolean,
+
+type Props = {
+  setApi: (arg: unknown) => void,
 }
-
-export type RadioValue = {
-  // -1 = undefined, rest is graded
-  value: -1 | 0 | 1 | 2 | 3 | 4,
-  question: string,
-}
-
-export type DataType = {
-  contact: {
-    firstName: Input,
-    lastName: Input,
-    email: Input,
-    phone: Input,
-    termsOfUse: Input,
-    privacyPolicy: Input,
-  },
-}
-
-export type RadioType = {
-  health: {
-    illnesses: RadioValue,
-    cancer: RadioValue,
-    flu: RadioValue,
-    heart: RadioValue,
-    headache: RadioValue,
-    digestion: RadioValue,
-  },
-  psychology: {
-    depression: RadioValue,
-    anxiety: RadioValue,
-    psychologyst: RadioValue,
-    amnesia: RadioValue,
-    sleepIssues: RadioValue,
-    irritable: RadioValue,
-  },
-  lifeStyle: {
-    sedantry: RadioValue,
-    food: RadioValue,
-    drinks: RadioValue,
-    burnout: RadioValue,
-    sadness: RadioValue,
-    stress: RadioValue,
-  }
-}
-
-export type DataProperty = keyof DataType[keyof DataType]
-export type RadioProperty = keyof RadioType[keyof RadioType]
-
-export type FormType = DataType & RadioType
-
-export type InputEvent = ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-export type ToggleEvent = ChangeEvent<HTMLInputElement>
-export type BlurToggleEvent = FocusEvent<HTMLButtonElement>
 
 const steps = ['Contact Information', 'Health', 'Psychology', 'Lifestyle', 'Results']
 
 
-const DiagnosticTool = (): JSX.Element => {
+const DiagnosticTool = ({ setApi }: Props): JSX.Element => {
 
   const [step, setStep] = useState(0)
   const [isFormValid, setIsFormValid] = useState(false)
@@ -219,10 +168,7 @@ const DiagnosticTool = (): JSX.Element => {
 
   const onNextStep = () => setStep(prevStep => prevStep + 1)
   const onPrevStep = () => setStep(prevStep => prevStep - 1)
-  // const resetForm = () => {
-  //   // cler form here
-  //   setStep(0)
-  // }
+  const onSave = () => setApi(data)
 
   const attemptGoNext = () => {
     validateAllFields()
@@ -358,8 +304,9 @@ const DiagnosticTool = (): JSX.Element => {
                     size="large"
                     color="primary"
                     endIcon={<Save />}
+                    onClick={onSave}
                     disabled={!isFormValid}>
-                    <Link href="/results" text="Save results" />
+                    <Link href="/results" text="Save results" passHref />
                   </Button>
                 )}
                 </Box>
