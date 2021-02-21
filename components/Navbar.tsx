@@ -30,9 +30,11 @@ const Navbar = (): JSX.Element => {
         </Grid>
       </Box>
       <Box>
-        <Button size="large" variant="outlined" color="primary">
-          <Link href="/tool" text="Diagnostic Tool" />
-        </Button>
+        <Link href="/tool" text="Diagnostic Tool">
+          <Button size="large" variant="outlined" color="primary">
+            Diagnostic Tool
+          </Button>
+        </Link>
       </Box>
     </Box>
   )

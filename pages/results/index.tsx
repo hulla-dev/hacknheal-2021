@@ -38,9 +38,11 @@ const Results = ({ api }: Props): JSX.Element => {
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <Button variant="contained" color="primary">
-                <Link href="/tool" text="Go to diagnostics tool" />
-              </Button>
+              <Link href="/tool" text="Go to diagnostics tool">
+                <Button variant="contained" color="primary">
+                  Go to diagnostics tool
+                </Button>
+              </Link>
             </Grid>
           </Grid>
         </Section>

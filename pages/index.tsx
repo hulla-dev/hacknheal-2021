@@ -248,13 +248,15 @@ const Home = ({unsupported}: Props): JSX.Element => {
               </Grid>
               <Grid item xs={12}>
                 <Fade>
-                  <Button
-                    className={classes.button}
-                    variant="contained"
-                    color="primary"
-                    size="large">
-                    <Link href="/tool" text="Start the diagnostic tool" />
-                  </Button>
+                  <Link href="/tool">
+                    <Button
+                      className={classes.button}
+                      variant="contained"
+                      color="primary"
+                      size="large">
+                      Start the diagnostic tool
+                    </Button>
+                  </Link>
                 </Fade>
               </Grid>
             </Grid>

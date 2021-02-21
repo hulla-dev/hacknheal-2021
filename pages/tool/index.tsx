@@ -314,15 +314,17 @@ const DiagnosticTool = ({ setApi }: Props): JSX.Element => {
                 )}
                 {step >= steps.length - 1 && (
                   accuracyRatio >= 33 ? (
-                    <Button
-                      variant="contained"
-                      size="large"
-                      color="primary"
-                      endIcon={<Save />}
-                      onClick={onSave}
-                      disabled={!isFormValid}>
-                      <Link href="/results" text="Save results" passHref />
-                    </Button>
+                    <Link href="/results">
+                      <Button
+                        variant="contained"
+                        size="large"
+                        color="primary"
+                        endIcon={<Save />}
+                        onClick={onSave}
+                        disabled={!isFormValid}>
+                        Save changes
+                      </Button>
+                    </Link>
                   ) : (
                     <Tooltip title="You must achieve at least moderate accuracy to continue" placement="top">
                       <div>

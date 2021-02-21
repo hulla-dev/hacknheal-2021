@@ -43,6 +43,7 @@ const useStyles = makeStyles(theme => ({
   refButton: {
     fontWeight: 'bold',
     margin: '0 1rem',
+    color: theme.palette.background.default,
   }
 }))
 
@@ -58,12 +59,11 @@ const Footer = (): JSX.Element => {
               Interested in how I did it? 
             </Typography>
             <Box mt={4}>
-              <Button size="large" startIcon={<GitHubIcon />} variant="outlined" color="secondary">
-                <Link
-                  href="https://github.com/samuelhulla/hacknheal-2020"
-                  text="View on github" 
-                />
-              </Button>
+              <Link href="https://github.com/samuelhulla/hacknheal-2020">
+                <Button size="large" startIcon={<GitHubIcon />} variant="outlined" color="secondary">
+                View on github
+                </Button>
+              </Link>
             </Box>
           </Grid>
           {/* @ts-ignore */}
@@ -79,9 +79,11 @@ const Footer = (): JSX.Element => {
           <Grid item xs={8}>
             <Box display="flex" justifyContent="flex-end">
               {referrals.map(ref => (
-                <Button className={classes.refButton} key={ref.text} startIcon={ref.icon}>
-                  <Link color={palette.background.default} href={ref.link} text={ref.text} />
-                </Button>
+                <Link key={ref.text} href={ref.link} text={ref.text}>
+                  <Button className={classes.refButton} startIcon={ref.icon}>
+                    {ref.text}
+                  </Button>
+                </Link>
               ))}
             </Box>
           </Grid>

@@ -1,9 +1,11 @@
 import { default as NextLink } from 'next/link'
+import { ReactNode } from  'react'
 import { makeStyles } from '@material-ui/core/styles'
 
 type Props = {
-  text: string,
+  text?: string,
   href: string,
+  children?: ReactNode,
   color?: string,
   passHref?: boolean
 }
@@ -19,12 +21,15 @@ const useStyles = makeStyles({
 })
 
 const Link = (props: Props): JSX.Element => {
-  const { href, text, passHref = false } = props
+  const { href, text, children, passHref = false } = props
   const classes = useStyles(props)
 
   return (
     <NextLink href={href} passHref={passHref}>
-      <a className={classes.link}>{text}</a>
+      { children 
+        ? children
+        : <a className={classes.link}>{text}</a>
+      }
     </NextLink>
   )
 }
