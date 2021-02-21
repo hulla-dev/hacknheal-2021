@@ -1,8 +1,10 @@
 import { ChangeEvent, FocusEvent, useEffect, useState } from 'react'
 import { Box, Button, Grid, Step, StepLabel, Stepper, Tooltip } from '@material-ui/core'
+import { KeyboardArrowLeft, KeyboardArrowRight, Save } from '@material-ui/icons'
 import { Fade } from  'react-awesome-reveal'
 import { isSame } from '../../lib/math'
 import { validate } from '../../lib/validation'
+import Link from '../../components/Link'
 import Section from '../../components/Section'
 import Layout from '../../components/Layout'
 import ToolFields from '../../components/tool/ToolFields'
@@ -309,13 +311,18 @@ const DiagnosticTool = (): JSX.Element => {
             </Grid>
             <Grid item xs={12}>
               <Box display="flex">
-                <Box mx={3}>
                 {step > 0 && (
-                  <Button variant="contained" color="primary" onClick={onPrevStep}>
-                    Previous
-                  </Button>
+                  <Box mx={3}>
+                    <Button
+                      size="large"
+                      variant="contained"
+                      color="primary"
+                      onClick={onPrevStep}
+                      startIcon={<KeyboardArrowLeft />}>
+                      Go back
+                    </Button>
+                  </Box>
                 )}
-                </Box>
                 <Box mx={3}>
                 {step < steps.length - 1 && (
                   (attemptedNext && !isFormValid)
@@ -328,8 +335,9 @@ const DiagnosticTool = (): JSX.Element => {
                             size="large"
                             color="primary"
                             disabled={!isFormValid}
+                            endIcon={<KeyboardArrowRight />}
                             onClick={attemptGoNext}>
-                            Next
+                            Go next
                           </Button>
                         </div>
                       </Tooltip>
@@ -338,8 +346,9 @@ const DiagnosticTool = (): JSX.Element => {
                         variant="contained"
                         size="large"
                         color="primary"
+                        endIcon={<KeyboardArrowRight />}
                         onClick={attemptGoNext}>
-                        Next
+                        Go next
                       </Button>
                     )
                 )}
@@ -348,9 +357,9 @@ const DiagnosticTool = (): JSX.Element => {
                     variant="contained"
                     size="large"
                     color="primary"
-                    disabled={!isFormValid}
-                    onClick={attemptGoNext}>
-                    Save results
+                    endIcon={<Save />}
+                    disabled={!isFormValid}>
+                    <Link href="/results" text="Save results" />
                   </Button>
                 )}
                 </Box>
