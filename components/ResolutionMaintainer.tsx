@@ -54,9 +54,9 @@ const ResolutionMaintainer = ({children }: Props): JSX.Element => {
                 While it is built in majority with Grid Layout, given this &nbsp;
                 <strong>is a one man project built in 2 days</strong> &nbsp;
                 I did not have the time to fully optimize (or even deal with)
-                responsive design. But as I said, majority of it is implemented
-                via grid layout, it would just be about ironing out the kinks,
-                which would be too much busywork at this point
+                responsive design. Obviously if the project got picked up
+                this would be the number one priority, but for now
+                I had to focus on getting a working prototype out of the door
               </Typography>
             </Grid>
             <Grid item xs={12}>
